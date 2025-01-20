@@ -1350,8 +1350,12 @@ export const useSearchStore = defineStore('search', {
 
       return filtered
     },
+    // Ici il fallait modifier ce code : if (!this.savedSearch.find((item) => item !== search)) this.savedSearch.push(search)  
+    // Par : if (!this.savedSearch.find((item) => JSON.stringify(item) === JSON.stringify(search))) {  this.savedSearch.push(search)}  
     saveSearch(search) {
-      if (!this.savedSearch.find((item) => item !== search)) this.savedSearch.push(search)
+      if (!this.savedSearch.find((item) => JSON.stringify(item) === JSON.stringify(search))) {
+        this.savedSearch.push(search)
+      }
     },
     clearSavedSearch(index) {
       this.savedSearch.splice(index, 1)

@@ -79,11 +79,11 @@
 </template>
 
 <script setup>
+import { useAuthenticateStore } from 'stores/authenticate-store.js'
+import { useSearchStore } from 'stores/search-store.js'
+import { computed, defineEmits, defineProps, onMounted, ref, toRefs } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
-import { onMounted, ref, toRefs, computed, defineProps, defineEmits } from 'vue'
-import { useSearchStore } from 'stores/search-store.js'
-import { useAuthenticateStore } from 'stores/authenticate-store.js'
 
 const searchStore = useSearchStore()
 const authenticateStore = useAuthenticateStore()
@@ -108,6 +108,7 @@ const sizeOfInput = ref(0)
 
 const save = () => {
   if (isAuthenticated.value) {
+    console.log('Filtres actuels:', form.value);
     searchStore.saveSearch(form.value)
   } else {
     authenticateStore.openAuthModal()

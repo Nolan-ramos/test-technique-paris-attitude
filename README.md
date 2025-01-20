@@ -11,12 +11,11 @@
 # Rendu
 
 ## Pour chaque erreur, j'ai ajouté un commentaire à/aux lignes modifiée/ées expliquant les modifications apportées dans le code.
-## J'ai également ajouté une ligne "Solutions" pour chaque problème mentionné ci-dessous, où j'explique ce que j'ai changé en détail.
+## J'ai aussi ajouté une ligne "Solutions" pour chaque problème mentionné ci-dessous, où j'explique ce que j'ai changé en détail ainsi qu'une ligne ou je cite le ou les fichier/s utilisé/s.
 
 -------------------------------------------------------------------------------------------------------------------------------------------
 
 ### Problèmes identifiés et attentes
-
 
 
 Connexion avec mot de passe :
@@ -95,20 +94,29 @@ Filtres de loyer :
 - Problème : Les filtres de loyer ne fonctionnent pas correctement.
 - Attendu : Corriger les filtres pour qu'ils filtrent les biens en fonction des critères de loyer sélectionnés.
 - Solutions : 
+- Fichier modifié : 
 
 -------------------------------------------------------------------------------------------------------------------------------------------
 
 Enregistrement de recherche :
 - Problème : Rien ne se passe lorsqu'un utilisateur connecté clique sur "Enregistrer ma recherche".
 - Attendu : Vérifier que la fonctionnalité est bien implémentée.
-- Solutions : 
+- Solutions : Pour que l'enregistrement fonctionne bien, il faut modifier ce code : if (!this.savedSearch.find((item) => item !== search)) this.savedSearch.push(search)  
+En le remplacant par celui-ci : if (!this.savedSearch.find((item) => JSON.stringify(item) === JSON.stringify(search))) {  this.savedSearch.push(search)}  
+Car ce sont des objets et donc l'utilisation de JSON.stringify est plus adapté.
+
+- Fichier modifié : search-store.js
 
 -------------------------------------------------------------------------------------------------------------------------------------------
 
 Suppression des recherches enregistrées :
 - Problème : Le bouton de suppression des recherches enregistrées est manquant.
 - Attendu : Ajouter un bouton pour permettre cette suppression et s'assurer que la méthode backend existante soit appelée correctement et qu'elle fonctionne bien.
-- Solutions : 
+- Solutions : J'ai ajouté un bouton qui permet de supprimer une recherche enregistrée, ce bouton est présent sur chacune des recherches enregistrées.  
+Ce bouton lance la fonction : deleteSearch  
+deleteSearch vérifie si l'utilisateur est connecté, si c'est le cas alors ça appelle clearSavedSearch(index) dans le store en faisant passer en paramètre l'index de la recherche enregistrée à supprimer.  
+Et si l'utilisateur n'est pas connecté alors la modal de connexion apparaît.
+- Fichier modifié : CardSavedSearch.vue
 
 -------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -117,5 +125,6 @@ Titre de l’onglet sur la page de recherche :
 - Attendu : Ajouter un titre pertinent au niveau de l’onglet pour améliorer l’expérience utilisateur.
 - Solutions : Le titre de l'onglet n'est pas présent car il manque ces éléments de code : import { useMeta } from 'quasar' qui permet d'importer le composable useMeta de quasar.  
 Il faut donc ensuite ajouter le composable useMeta dans le code : useMeta({ title: 'Search', }).
+- Fichier modifié : SearchPage.vue
 
 
