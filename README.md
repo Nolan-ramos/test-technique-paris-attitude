@@ -55,7 +55,7 @@ Accès à la page "Favorites" sans connexion :
 - Problème : L'utilisateur peut accéder à la page des favoris via l'URL sans être connecté.
 - Attendu : Bloquer l'accès à cette page si l'utilisateur n'est pas connecté.
 - Solutions : En corrigeant le problème : Modal de connexion sur la page "favorites" en premier, cela a corrigé aussi le problème : Accès à la page "Favorites" sans connexion.  
-En revanche, si on se déconnecte sur la page "favorites", on reste quand même sur cette page, donc j'ai modifié le code pour faire en sorte que quand on appuie sur le bouton de déconnexion ça lance la fonction logout : @click="logout", et cette fonction logout appelle logoutUser() qui est sur le store, et ensuite si on est sur la page "favorites", cela redirige vers la page home
+En revanche, si on se déconnecte sur la page "favorites", on reste quand même sur cette page, donc j'ai modifié le code pour faire en sorte que quand on appuie sur le bouton de déconnexion ça lance la fonction logout : @click="logout", et cette fonction logout appelle logoutUser() qui est sur le store, et ensuite si on est sur la page "favorites", cela redirige vers la page home.
 - Fichiers modifiés : routes.js et HeaderComponent.vue
 
 -------------------------------------------------------------------------------------------------------------------------------------------
@@ -89,15 +89,7 @@ Et dans le cas contraire filtrer en fonction des paramètres.
 - Fichier modifié : SearchPage.vue
 
 -------------------------------------------------------------------------------------------------------------------------------------------
-// Ici il fallait séparer key === 'min' et key === 'max' en 2 conditions différentes étant donné que ce sont 2 filtres différents
-          // En séparant min et max, cela permet de pouvoir traiter les 2 filtres 
-if (key === 'min') {
-            filtered = filtered.filter(item => item.price >= form[key]);
-          } else if (key === 'max') {
-            filtered = filtered.filter(item => item.price <= form[key]);
-          } else {
-            filtered = filtered.filter(item => item[key] === form[key]);
-          }
+
 Filtres de loyer :
 - Problème : Les filtres de loyer ne fonctionnent pas correctement.
 - Attendu : Corriger les filtres pour qu'ils filtrent les biens en fonction des critères de loyer sélectionnés.
