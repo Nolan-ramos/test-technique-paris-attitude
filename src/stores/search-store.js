@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
 
 export const useSearchStore = defineStore('search', {
   state: () => ({
@@ -1337,23 +1337,26 @@ export const useSearchStore = defineStore('search', {
     filteringAccommodation(form, reset = false) {
       if (reset) return this.accommodations
       let filtered = [...this.accommodations]
-
       Object.keys(form).forEach((key) => {
         if (form[key] !== null) {
-          filtered = filtered.filter((item) => {
-            if (key === 'min' || key === 'max') {
-              return item.price <= form.min && item.price >= form.max
-            } else return item[key] === form[key]
-          })
+          // Ici il fallait séparer key === 'min' et key === 'max' en 2 conditions différentes étant donné que ce sont 2 filtres différents
+          // En séparant min et max, cela permet de pouvoir traiter les 2 filtres 
+          if (key === 'min') {
+            filtered = filtered.filter(item => item.price >= form[key]);
+          } else if (key === 'max') {
+            filtered = filtered.filter(item => item.price <= form[key]);
+          } else {
+            filtered = filtered.filter(item => item[key] === form[key]);
+          }
         }
-      })
-
-      return filtered
+      });
+      return filtered;
     },
     // Ici il fallait modifier ce code : if (!this.savedSearch.find((item) => item !== search)) this.savedSearch.push(search)  
     // Par : if (!this.savedSearch.find((item) => JSON.stringify(item) === JSON.stringify(search))) {  this.savedSearch.push(search)}  
     saveSearch(search) {
       if (!this.savedSearch.find((item) => JSON.stringify(item) === JSON.stringify(search))) {
+        console.log(JSON.stringify(search));
         this.savedSearch.push(search)
       }
     },

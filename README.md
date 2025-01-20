@@ -11,7 +11,7 @@
 # Rendu
 
 ## Pour chaque erreur, j'ai ajouté un commentaire à/aux lignes modifiée/ées expliquant les modifications apportées dans le code.
-## J'ai aussi ajouté une ligne "Solutions" pour chaque problème mentionné ci-dessous, où j'explique ce que j'ai changé en détail ainsi qu'une ligne ou je cite le ou les fichier/s utilisé/s.
+## J'ai aussi ajouté une ligne "Solutions" pour chaque problème mentionné ci-dessous, où j'explique ce que j'ai changé en détail. Ainsi qu'une ligne ou je cite le ou les fichier/s utilisé/s.
 
 -------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -89,12 +89,24 @@ Et dans le cas contraire filtrer en fonction des paramètres.
 - Fichier modifié : SearchPage.vue
 
 -------------------------------------------------------------------------------------------------------------------------------------------
-
+// Ici il fallait séparer key === 'min' et key === 'max' en 2 conditions différentes étant donné que ce sont 2 filtres différents
+          // En séparant min et max, cela permet de pouvoir traiter les 2 filtres 
+if (key === 'min') {
+            filtered = filtered.filter(item => item.price >= form[key]);
+          } else if (key === 'max') {
+            filtered = filtered.filter(item => item.price <= form[key]);
+          } else {
+            filtered = filtered.filter(item => item[key] === form[key]);
+          }
 Filtres de loyer :
 - Problème : Les filtres de loyer ne fonctionnent pas correctement.
 - Attendu : Corriger les filtres pour qu'ils filtrent les biens en fonction des critères de loyer sélectionnés.
-- Solutions : 
-- Fichier modifié : 
+- Solutions : Pour que les filtres de loyer fonctionnent correctement, il faut surtout se pencher sur les filtres min et max.  
+Car étant donné que les 2 filtres sont gérés dans la même condition : if (key === 'min' || key === 'max') cela ne fonctionne pas.  
+Il faut les séparer en 2 conditions : if (key === 'min'){ filtered = filtered.filter(item => item.price >= form[key]);}  
+et : else if (key === 'max') { filtered = filtered.filter(item => item.price <= form[key]);}  
+De cette manière les 2 filtres sont gérés indépendamment.
+- Fichier modifié : search-store.js
 
 -------------------------------------------------------------------------------------------------------------------------------------------
 
