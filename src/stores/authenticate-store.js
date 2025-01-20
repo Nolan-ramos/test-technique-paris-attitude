@@ -20,7 +20,7 @@ export const useAuthenticateStore = defineStore('authenticate', {
   actions: {
     async authenticateUser(user) {
       // ici il faut mettre === au lieu de !== pour que la connexion se fasse bien si l'username et le password sont correct
-      // et la ligne était : user.password !== process.env.PASSWORD donc c'est pour ça que ça ne fonctionnait pas
+      // et la ligne était : user.password !== process.env.PASSWORD donc c'est pour cela que ça ne fonctionnait pas
       if (user.username === process.env.USERNAME_APP && user.password === process.env.PASSWORD) {
         this.user = user
         Notify.create({

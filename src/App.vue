@@ -46,8 +46,8 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-import { useAuthenticateStore } from 'stores/authenticate-store.js'
+import { useAuthenticateStore } from 'stores/authenticate-store.js';
+import { computed, ref } from 'vue';
 
 const authenticateStore = useAuthenticateStore()
 

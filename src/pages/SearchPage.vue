@@ -31,12 +31,15 @@
 </template>
 
 <script setup>
-import { useRoute } from 'vue-router'
-import { computed, onMounted, ref } from 'vue'
-import { useSearchStore } from 'stores/search-store.js'
 import CardAccommodation from 'components/CardAccommodation.vue'
-import FiltersSearch from 'components/FiltersSearch.vue'
 import CardSavedSearch from 'components/CardSavedSearch.vue'
+import FiltersSearch from 'components/FiltersSearch.vue'
+// ici pour que le titre de l’onglet soit bien Search, il fallait ajouter cette ligne : import { useMeta } from 'quasar'
+// et aussi ce code : useMeta({ title: 'Search', }) qui est plus bas dans la page (ligne 90 à 92)
+import { useMeta } from 'quasar'
+import { useSearchStore } from 'stores/search-store.js'
+import { computed, onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
@@ -82,6 +85,10 @@ onMounted(() => {
   filteredAccommodations.value = accommodations.value.filter((accommodation) => {
     return accommodation.borough === route.params.search
   })
+})
+
+useMeta({
+  title: 'Search',
 })
 </script>
 
