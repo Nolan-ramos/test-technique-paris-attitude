@@ -24,7 +24,7 @@ const routes = [
         name: 'favorites',
         beforeEnter: (to, from, next) => {
           const { isAuthenticated, openAuthModal } = useAuthenticateStore()
-          // Ici, le code qui faisait que la modal s'affichait même si on était connecté est : !isAuthenticated
+          // Ici, le code qui faisait que la modaal s'affichait même si on était connecté est : !isAuthenticated
           // qu'il fallait remplacer par isAuthenticated donc sans le "!"
           if (isAuthenticated) {
             next()

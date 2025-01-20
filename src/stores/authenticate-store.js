@@ -68,8 +68,12 @@ export const useAuthenticateStore = defineStore('authenticate', {
         })
       }
     },
-    removeFromFavorites(favorite) {
-      this.favorites = this.favorites.filter((f) => f.id !== favorite.id)
+    removeFromFavorites(favoriteId) {
+      // ici le problème était qu'au niveau des paramètres nous avions favorite qui renvoyait l'id du favori supprimé
+      // mais dans le code nous avions : this.favorites = this.favorites.filter((f) => f.id !== favorite.id) 
+      // donc favorite étant déjà l'id, favorite.id n'existe pas donc c'est la raison pour laquelle il fallait seulement mettre favorite
+      // et j'ai remplacé favorite par favoriteId pour que ça soit plus compréhensible
+      this.favorites = this.favorites.filter((f) => f.id !== favoriteId)
       Notify.create({
         color: 'positive',
         message: 'Favorite removed!',

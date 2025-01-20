@@ -53,18 +53,20 @@ Connexion persistante :
 
 -------------------------------------------------------------------------------------------------------------------------------------------
 
-Accès à la page "Favorites" sans connexion :
-- Problème : L'utilisateur peut accéder à la page des favoris via l'URL sans être connecté.
-- Attendu : Bloquer l'accès à cette page si l'utilisateur n'est pas connecté.
-- Solutions : 
-
--------------------------------------------------------------------------------------------------------------------------------------------
-
 Modal de connexion sur la page "Favorites" :
 - Problème : Même connecté, cliquer sur "Favoris" affiche la modal de connexion.
 - Attendu : Supprimer l'ouverture de la modal si l'utilisateur est déjà connecté.
 - Solutions : Le problème est ce code : !isAuthenticated, qui inverse l'effet, car si on est connecté, la popup connexion s'affiche et si on est pas connecté, on peut accéder à la page favoris (par l'url par exemple).  
 Donc il faut remplacer !isAuthenticated par : isAuthenticated (sans le "!") pour inversé le fonctionnement.
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+Accès à la page "Favorites" sans connexion :
+- Problème : L'utilisateur peut accéder à la page des favoris via l'URL sans être connecté.
+- Attendu : Bloquer l'accès à cette page si l'utilisateur n'est pas connecté.
+- Solutions : En corrigeant le problème : Modal de connexion sur la page "favorites" en premier, cela a corrigé aussi le problème : Accès à la page "Favorites" sans connexion.  
+En revanche, si on se déconnecte sur la page "favorites", on reste quand même sur cette page, donc j'ai modifié le code pour faire en sorte que quand on appuie sur le bouton de déconnexion ça lance la fonction logout : @click="logout", et cette fonction logout appelle logoutUser() qui est sur le store, et ensuite si on est sur la page "favorites", cela redirige vers la page home
+
 
 -------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -85,7 +87,9 @@ Enregistrement de recherche :
 Suppression de favoris :
 - Problème : La suppression d'un favori ne fonctionne pas.
 - Attendu : Corriger la fonctionnalité de suppression des favoris.
-- Solutions : 
+- Solutions : Les favoris ne sont pas supprimés en cliquant sur supprimer car dans le code la ligne est : this.favorites = this.favorites.filter((f) => f.id !== favorite.id).  
+Mais étant donné que nous récupérons l'id directement, favorite.id n'existe pas et il faut seulement remplacer favorite.id par favorite de cette manière : this.favorites = this.favorites.filter((f) => f.id !== favorite).  
+J'ai modifié le nom du paramètre de favorite à favoriteId pour que ça soit plus compréhensible : this.favorites = this.favorites.filter((f) => f.id !== favoriteId).  
 
 -------------------------------------------------------------------------------------------------------------------------------------------
 

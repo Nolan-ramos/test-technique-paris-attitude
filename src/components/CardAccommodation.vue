@@ -43,9 +43,9 @@
 </template>
 
 <script setup>
-import { ref, defineProps, computed } from 'vue'
-import { useAuthenticateStore } from 'stores/authenticate-store.js'
-import { useI18n } from 'vue-i18n'
+import { useAuthenticateStore } from 'stores/authenticate-store.js';
+import { computed, defineProps, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n()
 

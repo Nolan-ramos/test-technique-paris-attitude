@@ -32,7 +32,7 @@
         outline
         size="md"
         class="q-mr-md"
-        @click="authenticateStore.logoutUser"
+        @click="logout"
       />
       <q-btn
         :label="i18nStore.locale"
@@ -57,10 +57,10 @@
 </template>
 
 <script setup>
-import { useI18nStore } from '/src/stores/i18n-store.js'
-import { useAuthenticateStore } from 'stores/authenticate-store.js'
-import { useRoute, useRouter } from 'vue-router'
-import { computed } from 'vue'
+import { useAuthenticateStore } from 'stores/authenticate-store.js';
+import { computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useI18nStore } from '/src/stores/i18n-store.js';
 
 const i18nStore = useI18nStore()
 const authenticateStore = useAuthenticateStore()
@@ -68,6 +68,15 @@ const route = useRoute()
 const router = useRouter()
 
 const isAuthenticated = computed(() => authenticateStore.isAuthenticated)
+
+function logout() {
+  // Appeler logoutUser() qui est sur le store
+  authenticateStore.logoutUser()
+  // Si on se déconnecte en étant sur la page favorites, cela redirige vers la page home
+  if (router.currentRoute.value.name === 'favorites') {
+    router.push({ name: 'home' })
+  }
+}
 
 const changeLocale = (lang) => {
   i18nStore.setLocale(lang)
