@@ -12,7 +12,9 @@ const routes = [
         name: 'home',
       },
       {
-        path: 'search/:search',
+        // en remplacant search/:search par search/:search? donc en ajoutant le "?" 
+        // cela fait en sorte que le paramètre soit optionnel au lieu d'être obligatoire
+        path: 'search/:search?',
         component: () => import('pages/SearchPage.vue'),
         meta: { title: 'Search' },
         name: 'search',

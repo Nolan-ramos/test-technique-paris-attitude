@@ -82,9 +82,16 @@ const resetMethod = () => {
 }
 
 onMounted(() => {
-  filteredAccommodations.value = accommodations.value.filter((accommodation) => {
-    return accommodation.borough === route.params.search
-  })
+  // Si aucun borough, on affiche tous les logements
+  if (!route.params.search) {
+    filteredAccommodations.value = accommodations.value
+  } 
+  // Dans le cas contraire, on filtre en fonction du borough sélectionné
+  else {
+    filteredAccommodations.value = accommodations.value.filter((accommodation) => {
+      return accommodation.borough === route.params.search
+    })
+  }
 })
 
 // Voici le code qu'il fallait aussi ajouter pour que le titre de l'onglet soit bien Search

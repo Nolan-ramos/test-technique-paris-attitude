@@ -44,12 +44,12 @@
 </template>
 
 <script setup>
-import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
-import { computed, onMounted, ref } from 'vue'
-import { useSearchStore } from 'stores/search-store.js'
 import CardAccommodation from 'components/CardAccommodation.vue'
 import { useMeta } from 'quasar'
+import { useSearchStore } from 'stores/search-store.js'
+import { computed, onMounted, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
 
 const searchStore = useSearchStore()
 const image = '../public/assets/background.webp'
@@ -75,7 +75,7 @@ const borough = ref('')
 const search = () => {
   router.push({
     name: 'search',
-    params: { search: borough.value },
+    params: { search: borough.value},
   })
 }
 

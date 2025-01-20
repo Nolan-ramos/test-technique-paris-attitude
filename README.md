@@ -17,25 +17,14 @@
 
 ### Problèmes identifiés et attentes
 
-Accès à la page de recherche :
-- Problème : L'utilisateur ne peut pas accéder à la page de recherche sans saisir un quartier.
-- Attendu : Permettre l'accès à la page de recherche sans quartier.
-- Solutions : 
 
--------------------------------------------------------------------------------------------------------------------------------------------
-
-Affichage des biens dans la recherche :
-- Problème : Aucun bien n'est visible si aucun quartier n'est sélectionné.
-- Attendu : Lorsque aucun quartier n'est sélectionné, afficher l'ensemble des biens.
-- Solutions : 
-
--------------------------------------------------------------------------------------------------------------------------------------------
 
 Connexion avec mot de passe :
 - Problème : Impossible de se connecter avec un mot de passe correct.
 - Attendu : Corriger la logique d'authentification pour valider les identifiants corrects.
 - Solutions : Le problème est ce code : user.password !== process.env.PASSWORD qui connecte l'user si l'username est correct et le password incorrect.  
 Donc il faut remplacer le code par celui-ci : user.password === process.env.PASSWORD pour que l'user soit connecté en rentrant un username et un password correct.
+- Fichier modifié : authenticate-store.js
 
 -------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -50,6 +39,7 @@ Connexion persistante :
     - Au niveau de logoutUser() : localStorage.removeItem('user')
         - Cette ligne permet de supprimer un utilisateur dans le localStorage pour que les fonctionnalités disponibles en tant que connectés ne soient plus disponibles.
     - En vérité, ce mécanisme de connexion/déconnection est fonctionnel mais n'est pas optimal et sécurisé, il faudrait utiliser un mécanisme comme JWT par exemple.
+- Fichier modifié : authenticate-store.js
 
 -------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -58,6 +48,7 @@ Modal de connexion sur la page "Favorites" :
 - Attendu : Supprimer l'ouverture de la modal si l'utilisateur est déjà connecté.
 - Solutions : Le problème est ce code : !isAuthenticated, qui inverse l'effet, car si on est connecté, la popup connexion s'affiche et si on est pas connecté, on peut accéder à la page favoris (par l'url par exemple).  
 Donc il faut remplacer !isAuthenticated par : isAuthenticated (sans le "!") pour inversé le fonctionnement.
+- Fichier modifié : routes.js
 
 -------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -66,7 +57,37 @@ Accès à la page "Favorites" sans connexion :
 - Attendu : Bloquer l'accès à cette page si l'utilisateur n'est pas connecté.
 - Solutions : En corrigeant le problème : Modal de connexion sur la page "favorites" en premier, cela a corrigé aussi le problème : Accès à la page "Favorites" sans connexion.  
 En revanche, si on se déconnecte sur la page "favorites", on reste quand même sur cette page, donc j'ai modifié le code pour faire en sorte que quand on appuie sur le bouton de déconnexion ça lance la fonction logout : @click="logout", et cette fonction logout appelle logoutUser() qui est sur le store, et ensuite si on est sur la page "favorites", cela redirige vers la page home
+- Fichiers modifiés : routes.js et HeaderComponent.vue
 
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+Suppression de favoris :
+- Problème : La suppression d'un favori ne fonctionne pas.
+- Attendu : Corriger la fonctionnalité de suppression des favoris.
+- Solutions : Les favoris ne sont pas supprimés en cliquant sur supprimer car dans le code la ligne est : this.favorites = this.favorites.filter((f) => f.id !== favorite.id).  
+Mais étant donné que nous récupérons l'id directement, favorite.id n'existe pas et il faut seulement remplacer favorite.id par favorite de cette manière : this.favorites = this.favorites.filter((f) => f.id !== favorite).  
+J'ai modifié le nom du paramètre de favorite à favoriteId pour que ça soit plus compréhensible : this.favorites = this.favorites.filter((f) => f.id !== favoriteId).  
+- Fichier modifié : authenticate-store.js
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+Accès à la page de recherche :
+- Problème : L'utilisateur ne peut pas accéder à la page de recherche sans saisir un quartier.
+- Attendu : Permettre l'accès à la page de recherche sans quartier.
+- Solutions : Ici ce qui bloque c'est le fait que dans les routes, on veut obligatoirement un paramètre pour la page search avec ce code : search/:search  
+Mais en ajoutant un "?" de cette manière : search/:search?  
+Le paramètre devient optionnel et nous pouvons donc être rediriger vers la page search même sans rien sélectionner.
+- Fichier modifié : routes.js
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+Affichage des biens dans la recherche :
+- Problème : Aucun bien n'est visible si aucun quartier n'est sélectionné.
+- Attendu : Lorsque aucun quartier n'est sélectionné, afficher l'ensemble des biens.
+- Solutions : Ici par défaut, dans le onMounted, c'est en fonction du filtre sélectionné, que les logements s'affichent.  
+Il faut donc mettre une condition dans le cas où il n'y a aucun filtre sélectionné en affichant tous les logements.  
+Et dans le cas contraire filtrer en fonction des paramètres.
+- Fichier modifié : SearchPage.vue
 
 -------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -81,15 +102,6 @@ Enregistrement de recherche :
 - Problème : Rien ne se passe lorsqu'un utilisateur connecté clique sur "Enregistrer ma recherche".
 - Attendu : Vérifier que la fonctionnalité est bien implémentée.
 - Solutions : 
-
--------------------------------------------------------------------------------------------------------------------------------------------
-
-Suppression de favoris :
-- Problème : La suppression d'un favori ne fonctionne pas.
-- Attendu : Corriger la fonctionnalité de suppression des favoris.
-- Solutions : Les favoris ne sont pas supprimés en cliquant sur supprimer car dans le code la ligne est : this.favorites = this.favorites.filter((f) => f.id !== favorite.id).  
-Mais étant donné que nous récupérons l'id directement, favorite.id n'existe pas et il faut seulement remplacer favorite.id par favorite de cette manière : this.favorites = this.favorites.filter((f) => f.id !== favorite).  
-J'ai modifié le nom du paramètre de favorite à favoriteId pour que ça soit plus compréhensible : this.favorites = this.favorites.filter((f) => f.id !== favoriteId).  
 
 -------------------------------------------------------------------------------------------------------------------------------------------
 
