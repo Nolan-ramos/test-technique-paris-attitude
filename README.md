@@ -10,7 +10,7 @@
 
 # Rendu
 
-## Pour chaque erreur, j'ai ajouté un commentaire expliquant les modifications apportées dans le code.
+## Pour chaque erreur, j'ai ajouté un commentaire à/aux lignes modifiée/ées expliquant les modifications apportées dans le code.
 ## J'ai également ajouté une ligne "Solutions" pour chaque problème mentionné ci-dessous, où j'explique ce que j'ai changé en détail.
 
 -------------------------------------------------------------------------------------------------------------------------------------------
@@ -42,7 +42,14 @@ Donc il faut remplacer le code par celui-ci : user.password === process.env.PASS
 Connexion persistante :
 - Problème : Après connexion, l'utilisateur est déconnecté en actualisant la page.
 - Attendu : Assurer une persistance de la connexion après actualisation.
-- Solutions : 
+- Solutions : Pour cette partie j'ai ajouté 3 lignes de code :
+Au niveau des state : user: JSON.parse(localStorage.getItem('user')) || null, 
+    Cette ligne permet de savoir si il y a déjà un user dans le localStorage ou non après chargement ou actualisation de la page.
+Au niveau la authenticateUser(user) : localStorage.setItem('user', JSON.stringify(user))
+    Cette ligne permet de stocker un utilisateur dans le localStorage pour qu'ensuite on puisse le récuperer après actualisation.
+Au niveau de logoutUser() : localStorage.removeItem('user')
+    Cette ligne permet de supprimer un utilisateur dans le localStorage pour que les fonctionnalités disponibles en tant que connectés ne soient plus disponibles.
+En vérité, ce mécanisme de connexion/déconnection est fonctionnel mais n'est pas optimal et sécurisé, il faudrait utiliser un mécanisme comme JWT par exemple.
 
 -------------------------------------------------------------------------------------------------------------------------------------------
 

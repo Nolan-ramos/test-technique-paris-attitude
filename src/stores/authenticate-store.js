@@ -8,7 +8,8 @@ Notify.setDefaults({
 
 export const useAuthenticateStore = defineStore('authenticate', {
   state: () => ({
-    user: null,
+    // Récupère l'utilisateur depuis localStorage ou null si rien n'est trouvé
+    user: JSON.parse(localStorage.getItem('user')) || null,  
     authModal: false,
     favorites: [],
   }),
@@ -23,6 +24,8 @@ export const useAuthenticateStore = defineStore('authenticate', {
       // et la ligne était : user.password !== process.env.PASSWORD donc c'est pour cela que ça ne fonctionnait pas
       if (user.username === process.env.USERNAME_APP && user.password === process.env.PASSWORD) {
         this.user = user
+        // Sauvegarder l'utilisateur dans localStorage
+        localStorage.setItem('user', JSON.stringify(user))
         Notify.create({
           color: 'positive',
           message: 'You are now logged in!',
@@ -38,6 +41,8 @@ export const useAuthenticateStore = defineStore('authenticate', {
     },
     async logoutUser() {
       this.user = null
+      // Supprimer l'utilisateur du localStorage
+      localStorage.removeItem('user')
       Notify.create({
         color: 'positive',
         message: 'You are now logged out!',

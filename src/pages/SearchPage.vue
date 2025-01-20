@@ -87,6 +87,7 @@ onMounted(() => {
   })
 })
 
+// Voici le code qu'il fallait aussi ajouter pour que le titre de l'onglet soit bien Search
 useMeta({
   title: 'Search',
 })
