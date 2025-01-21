@@ -108,7 +108,6 @@ Enregistrement de recherche :
 - Solutions : Pour que l'enregistrement fonctionne bien, il faut modifier ce code : if (!this.savedSearch.find((item) => item !== search)) this.savedSearch.push(search)  
 En le remplacant par celui-ci : if (!this.savedSearch.find((item) => JSON.stringify(item) === JSON.stringify(search))) {  this.savedSearch.push(search)}  
 Car ce sont des objets et donc l'utilisation de JSON.stringify est plus adapté.
-
 - Fichier modifié : search-store.js
 
 -------------------------------------------------------------------------------------------------------------------------------------------
